@@ -1794,3 +1794,27 @@ footer .footer-bottom {
 .map-popup-risk {
     font-weight: 700;
 }
+/* Dashboard text visibility fix */
+.dashboard {
+    color: #ffffff;
+}
+
+.dashboard .section-heading span {
+    color: #38bdf8;
+}
+
+.dashboard .section-heading h2 {
+    color: #ffffff;
+}
+
+.dashboard .section-heading p {
+    color: #cbd5e1;
+}
+
+.dashboard-card h3 {
+    color: #ffffff;
+}
+
+.dashboard-card p {
+    color: #cbd5e1;
+}
