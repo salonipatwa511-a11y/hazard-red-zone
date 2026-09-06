@@ -1,0 +1,1796 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #07111f;
+    color: #ffffff;
+    line-height: 1.6;
+}
+
+
+/* =========================
+   NAVBAR
+========================= */
+
+.navbar {
+    width: 100%;
+    padding: 18px 7%;
+    background: #0b1b30;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    border-bottom: 1px solid #183550;
+}
+
+.logo {
+    font-size: 25px;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.logo span {
+    color: #35d6ff;
+}
+
+.nav-links {
+    display: flex;
+    gap: 25px;
+}
+
+.nav-links a {
+    color: #dce8f2;
+    text-decoration: none;
+    font-size: 15px;
+    transition: 0.3s;
+}
+
+.nav-links a:hover {
+    color: #35d6ff;
+}
+
+
+/* =========================
+   HERO
+========================= */
+
+.hero {
+    min-height: 620px;
+    padding: 90px 7%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 60px;
+
+    background:
+        radial-gradient(
+            circle at 75% 50%,
+            #123c55 0%,
+            #0a192b 35%,
+            #07111f 70%
+        );
+}
+
+.hero-content {
+    max-width: 700px;
+}
+
+.small-title {
+    color: #35d6ff;
+    font-size: 13px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    margin-bottom: 15px;
+}
+
+.hero h1 {
+    font-size: 58px;
+    line-height: 1.08;
+    margin-bottom: 25px;
+}
+
+.hero h1 span {
+    color: #35d6ff;
+}
+
+.hero-description {
+    color: #b8c8d8;
+    max-width: 650px;
+    font-size: 17px;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 15px;
+    margin-top: 35px;
+}
+
+.btn {
+    display: inline-block;
+    padding: 13px 25px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.primary {
+    background: #35d6ff;
+    color: #06101c;
+}
+
+.primary:hover {
+    transform: translateY(-3px);
+}
+
+.secondary {
+    border: 1px solid #35d6ff;
+    color: #35d6ff;
+}
+
+.secondary:hover {
+    background: #35d6ff;
+    color: #06101c;
+}
+
+
+/* =========================
+   RADAR
+========================= */
+
+.hero-visual {
+    text-align: center;
+    min-width: 300px;
+}
+
+.radar {
+    width: 260px;
+    height: 260px;
+    border: 2px solid #35d6ff;
+    border-radius: 50%;
+    position: relative;
+    margin: auto;
+
+    background:
+        radial-gradient(
+            circle,
+            transparent 28%,
+            rgba(53, 214, 255, 0.08) 29%,
+            transparent 30%,
+            transparent 48%,
+            rgba(53, 214, 255, 0.08) 49%,
+            transparent 50%,
+            transparent 68%,
+            rgba(53, 214, 255, 0.08) 69%,
+            transparent 70%
+        );
+}
+
+.radar::before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 1px;
+    background: #35d6ff;
+    top: 50%;
+    left: 0;
+}
+
+.radar::after {
+    content: "";
+    position: absolute;
+    width: 1px;
+    height: 100%;
+    background: #35d6ff;
+    left: 50%;
+    top: 0;
+}
+
+.radar-line {
+    position: absolute;
+    width: 50%;
+    height: 2px;
+    background: #ffffff;
+    top: 50%;
+    left: 50%;
+    transform-origin: left;
+    animation: radarRotate 3s linear infinite;
+}
+
+@keyframes radarRotate {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.radar-circle {
+    position: absolute;
+    border: 1px solid #35d6ff;
+    border-radius: 50%;
+}
+
+.circle-1 {
+    width: 70px;
+    height: 70px;
+    left: 94px;
+    top: 94px;
+}
+
+.circle-2 {
+    width: 140px;
+    height: 140px;
+    left: 59px;
+    top: 59px;
+}
+
+.circle-3 {
+    width: 210px;
+    height: 210px;
+    left: 24px;
+    top: 24px;
+}
+
+.radar-dot {
+    position: absolute;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: #ff4655;
+    box-shadow: 0 0 12px #ff4655;
+}
+
+.dot-1 {
+    top: 55px;
+    right: 70px;
+}
+
+.dot-2 {
+    bottom: 60px;
+    left: 65px;
+}
+
+.dot-3 {
+    top: 125px;
+    right: 30px;
+}
+
+.monitoring {
+    margin-top: 25px;
+    color: #35d6ff;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+
+/* =========================
+   INTRO
+========================= */
+
+.intro {
+    width: 80%;
+    max-width: 900px;
+    margin: 80px auto;
+    text-align: center;
+}
+
+.intro h2 {
+    font-size: 38px;
+    margin-bottom: 15px;
+}
+
+.intro p:last-child {
+    color: #aebdcb;
+}
+
+
+/* =========================
+   COMMON SECTION
+========================= */
+
+.section {
+    width: 86%;
+    max-width: 1200px;
+    margin: 100px auto;
+}
+
+.section-heading {
+    margin-bottom: 35px;
+}
+
+.section-heading h2 {
+    font-size: 38px;
+    margin-bottom: 10px;
+}
+
+.section-heading > p:last-child {
+    color: #aebdcb;
+}
+
+
+/* =========================
+   HAZARD CARDS
+========================= */
+
+.hazard-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+.hazard-card {
+    padding: 30px 25px;
+    background: #10243c;
+    border: 1px solid #1d4569;
+    border-radius: 15px;
+    transition: 0.3s;
+}
+
+.hazard-card:hover {
+    transform: translateY(-7px);
+    border-color: #35d6ff;
+}
+
+.hazard-icon {
+    font-size: 40px;
+    margin-bottom: 15px;
+}
+
+.hazard-card h3 {
+    font-size: 21px;
+    margin-bottom: 10px;
+}
+
+.hazard-card p {
+    color: #aebdcb;
+    font-size: 14px;
+}
+
+
+/* =========================
+   ASSESSMENT
+========================= */
+
+.assessment-section {
+    background: #0a192b;
+    padding: 50px;
+    width: 100%;
+    max-width: none;
+}
+
+.assessment-section .section-heading {
+    width: 86%;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.assessment-box {
+    width: 86%;
+    max-width: 1200px;
+    margin: auto;
+
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+}
+
+#assessmentForm,
+.result-box {
+    background: #10243c;
+    border: 1px solid #1d4569;
+    padding: 30px;
+    border-radius: 15px;
+}
+
+.input-group {
+    margin-bottom: 20px;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 14px;
+    background: #07111f;
+    color: white;
+    border: 1px solid #294763;
+    border-radius: 8px;
+    outline: none;
+}
+
+.input-group input:focus {
+    border-color: #35d6ff;
+}
+
+.submit-btn {
+    width: 100%;
+    padding: 15px;
+    border: none;
+    border-radius: 8px;
+    background: #35d6ff;
+    color: #06101c;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.submit-btn:hover {
+    transform: translateY(-2px);
+    opacity: 0.9;
+}
+
+.result-box h3 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.result-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 17px 0;
+    border-bottom: 1px solid #294763;
+}
+
+.result-item strong {
+    color: #35d6ff;
+}
+
+.recommendation {
+    margin-top: 25px;
+    padding: 20px;
+    background: #07111f;
+    border-radius: 10px;
+    border-left: 4px solid #35d6ff;
+}
+
+.recommendation h4 {
+    margin-bottom: 8px;
+}
+
+.recommendation p {
+    color: #b8c8d8;
+}
+
+
+/* =========================
+   TABLE
+========================= */
+
+.table-container {
+    overflow-x: auto;
+    border-radius: 12px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #10243c;
+}
+
+th,
+td {
+    padding: 17px;
+    text-align: left;
+    border-bottom: 1px solid #294763;
+}
+
+th {
+    color: #35d6ff;
+    background: #0d2035;
+}
+
+td {
+    color: #d7e2ec;
+}
+
+tr:hover td {
+    background: #132b45;
+}
+
+
+/* =========================
+   RELOCATION
+========================= */
+
+.relocation-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+.relocation-card {
+    background: #10243c;
+    padding: 30px;
+    border-radius: 15px;
+    border: 1px solid #1d4569;
+    transition: 0.3s;
+}
+
+.relocation-card:hover {
+    transform: translateY(-5px);
+    border-color: #35d6ff;
+}
+
+.relocation-card span {
+    font-size: 30px;
+    font-weight: bold;
+    color: #35d6ff;
+}
+
+.relocation-card h3 {
+    margin: 12px 0;
+}
+
+.relocation-card p {
+    color: #aebdcb;
+    font-size: 14px;
+}
+
+
+/* =========================
+   FOOTER
+========================= */
+
+footer {
+    background: #0b1b30;
+    border-top: 1px solid #183550;
+    padding: 40px 7%;
+    text-align: center;
+}
+
+footer .logo {
+    margin-bottom: 10px;
+}
+
+footer p {
+    color: #8fa4b8;
+    margin-top: 5px;
+}
+
+
+/* =========================
+   RESPONSIVE DESIGN
+========================= */
+
+@media (max-width: 1000px) {
+
+    .hero {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .hero-description {
+        margin: auto;
+    }
+
+    .hero-buttons {
+        justify-content: center;
+    }
+
+    .hazard-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .relocation-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .assessment-box {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+@media (max-width: 650px) {
+
+    .navbar {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .nav-links {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 12px;
+    }
+
+    .hero {
+        padding: 60px 5%;
+    }
+
+    .hero h1 {
+        font-size: 40px;
+    }
+
+    .radar {
+        width: 210px;
+        height: 210px;
+    }
+
+    .circle-1 {
+        width: 60px;
+        height: 60px;
+        left: 73px;
+        top: 73px;
+    }
+
+    .circle-2 {
+        width: 120px;
+        height: 120px;
+        left: 44px;
+        top: 44px;
+    }
+
+    .circle-3 {
+        width: 180px;
+        height: 180px;
+        left: 14px;
+        top: 14px;
+    }
+
+    .hazard-grid,
+    .relocation-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .section-heading h2,
+    .intro h2 {
+        font-size: 30px;
+    }
+
+    .assessment-section {
+        padding: 40px 0;
+    }
+
+    .assessment-box {
+        width: 90%;
+    }
+}
+/* =========================
+   DASHBOARD
+========================= */
+
+.dashboard {
+    padding: 80px 8%;
+    background: #071426;
+}
+
+.dashboard-grid {
+    max-width: 1200px;
+    margin: 40px auto 0;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+.dashboard-card {
+    padding: 30px 20px;
+    text-align: center;
+    background: #0d2038;
+    border: 1px solid #1b3958;
+    border-radius: 16px;
+    transition: 0.3s;
+}
+
+.dashboard-card:hover {
+    transform: translateY(-6px);
+    border-color: #00d9ff;
+}
+
+.dashboard-icon {
+    font-size: 32px;
+    margin-bottom: 15px;
+}
+
+.dashboard-card h3 {
+    font-size: 32px;
+    color: #00d9ff;
+    margin-bottom: 8px;
+}
+
+.dashboard-card p {
+    color: #b7c9dc;
+    margin: 0;
+}
+
+@media (max-width: 900px) {
+
+    .dashboard-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+}
+
+@media (max-width: 550px) {
+
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+
+}
+/* DATA SOURCES & METHODOLOGY */
+
+.sources-section {
+    padding: 80px 8%;
+    background: #f7f9fc;
+}
+
+.source-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+    margin-top: 40px;
+}
+
+.source-card {
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+}
+
+.source-icon {
+    width: 45px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    background: #e9eef7;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.source-card h3 {
+    margin-bottom: 12px;
+}
+
+.source-card p {
+    line-height: 1.7;
+    color: #555;
+}
+
+.source-badge {
+    display: inline-block;
+    margin-top: 15px;
+    padding: 6px 12px;
+    border-radius: 20px;
+    background: #eef2f7;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.methodology-box {
+    margin-top: 45px;
+    background: white;
+    padding: 35px;
+    border-radius: 18px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+}
+
+.methodology-box h3 {
+    margin-bottom: 20px;
+}
+
+.formula {
+    padding: 20px;
+    background: #f1f4f8;
+    border-radius: 10px;
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.method-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 25px;
+}
+
+.method-grid div {
+    padding: 20px;
+    border-left: 4px solid #333;
+    background: #fafafa;
+}
+
+.method-grid p {
+    color: #666;
+    line-height: 1.6;
+    margin-top: 8px;
+}
+
+.model-note {
+    margin-top: 30px;
+    padding: 18px;
+    background: #fff7e6;
+    border-radius: 10px;
+    line-height: 1.6;
+}
+
+@media (max-width: 800px) {
+    .source-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .method-grid {
+        grid-template-columns: 1fr;
+    }
+}
+/* ============================= */
+/* FINAL COLOR & TEXT VISIBILITY */
+/* ============================= */
+
+.sources-section {
+    background: #0f172a;
+    color: #ffffff;
+}
+
+.sources-section .section-header h2,
+.sources-section .section-header p,
+.sources-section .section-tag {
+    color: #ffffff;
+}
+
+.source-card {
+    background: #1e293b;
+    color: #ffffff;
+    border: 1px solid #334155;
+}
+
+.source-card h3 {
+    color: #ffffff;
+}
+
+.source-card p {
+    color: #cbd5e1;
+}
+
+.source-icon {
+    background: #334155;
+    color: #ffffff;
+}
+
+.source-badge {
+    background: #334155;
+    color: #ffffff;
+}
+
+.methodology-box {
+    background: #1e293b;
+    color: #ffffff;
+    border: 1px solid #334155;
+}
+
+.methodology-box h3 {
+    color: #ffffff;
+}
+
+.formula {
+    background: #334155;
+    color: #ffffff;
+}
+
+.method-grid div {
+    background: #273449;
+    border-left: 4px solid #60a5fa;
+}
+
+.method-grid strong {
+    color: #ffffff;
+}
+
+.method-grid p {
+    color: #cbd5e1;
+}
+
+.model-note {
+    background: #332b16;
+    color: #fef3c7;
+    border: 1px solid #665522;
+}
+
+
+/* ============================= */
+/* ABOUT PROJECT */
+/* ============================= */
+
+.about-section {
+    background: #111827;
+    color: #ffffff;
+}
+
+.about-section .section-header h2,
+.about-section .section-header p,
+.about-section .section-tag {
+    color: #ffffff;
+}
+
+.about-card {
+    background: #1f2937;
+    color: #ffffff;
+    border: 1px solid #374151;
+}
+
+.about-card h3 {
+    color: #ffffff;
+}
+
+.about-card p,
+.about-card li {
+    color: #d1d5db;
+}
+
+
+/* ============================= */
+/* SECTION HEADINGS */
+/* ============================= */
+
+.section-header h2 {
+    color: #ffffff;
+}
+
+.section-header p {
+    color: #cbd5e1;
+}
+
+.section-tag {
+    color: #60a5fa;
+}
+
+
+/* ============================= */
+/* TABLE VISIBILITY */
+/* ============================= */
+
+#zonesTable {
+    color: #ffffff;
+}
+
+#zonesTable td {
+    color: #e5e7eb;
+}
+
+#zonesTable th {
+    color: #ffffff;
+}
+
+
+/* ============================= */
+/* ASSESSMENT RESULT VISIBILITY */
+/* ============================= */
+
+#riskScore,
+#capacityUsage,
+#overCapacity,
+#priority,
+#recommendation {
+    color: #ffffff;
+}
+/* ============================= */
+/* ABOUT PROJECT */
+/* ============================= */
+
+.about-section {
+    padding: 80px 8%;
+    background: #111827;
+    color: #ffffff;
+}
+
+.about-section .section-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.about-section .section-tag {
+    color: #60a5fa;
+    font-weight: bold;
+}
+
+.about-section .section-header h2 {
+    color: #ffffff;
+    margin: 10px 0;
+}
+
+.about-section .section-header p {
+    color: #cbd5e1;
+    line-height: 1.7;
+}
+
+.about-content {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 25px;
+}
+
+.about-card {
+    background: #1f2937;
+    padding: 30px;
+    border-radius: 15px;
+    border: 1px solid #374151;
+}
+
+.about-card h3 {
+    color: #ffffff;
+    margin-bottom: 15px;
+}
+
+.about-card p {
+    color: #d1d5db;
+    line-height: 1.7;
+}
+
+.about-card ul {
+    color: #d1d5db;
+    line-height: 2;
+    padding-left: 20px;
+}
+
+@media (max-width: 800px) {
+    .about-content {
+        grid-template-columns: 1fr;
+    }
+}
+/* ============================= */
+/* RED ZONE TABLE */
+/* ============================= */
+
+#red-zones {
+    background: #0f172a;
+    color: white;
+    padding: 80px 8%;
+}
+
+#red-zones .section-header h2,
+#red-zones .section-header p,
+#red-zones .section-tag {
+    color: white;
+}
+
+#red-zones .table-container {
+    overflow-x: auto;
+    margin-top: 35px;
+}
+
+#red-zones table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #1e293b;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+#red-zones th {
+    background: #334155;
+    color: white;
+    padding: 16px;
+    text-align: left;
+}
+
+#red-zones td {
+    padding: 15px;
+    color: #e2e8f0;
+    border-bottom: 1px solid #334155;
+}
+
+#red-zones tr:hover {
+    background: #273449;
+}
+
+/* Risk Score */
+#red-zones td:nth-child(5) {
+    font-weight: bold;
+}
+
+/* Priority */
+#red-zones td:nth-child(6) {
+    font-weight: bold;
+}
+
+@media (max-width: 800px) {
+    #red-zones {
+        padding: 60px 4%;
+    }
+
+    #red-zones table {
+        min-width: 700px;
+    }
+}
+/* ============================= */
+/* RISK ASSESSMENT SECTION */
+/* ============================= */
+
+#assessment {
+    background: #f1f5f9;
+    color: #0f172a;
+    padding: 80px 8%;
+}
+
+#assessment .section-header h2 {
+    color: #0f172a;
+}
+
+#assessment .section-header p {
+    color: #475569;
+}
+
+#assessment .section-tag {
+    color: #2563eb;
+}
+
+/* Assessment Form */
+
+#assessment form {
+    background: #ffffff;
+    padding: 35px;
+    border-radius: 18px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.10);
+}
+
+/* Input Labels */
+
+#assessment label {
+    color: #0f172a;
+    font-weight: 600;
+}
+
+/* Input Fields */
+
+#assessment input,
+#assessment select {
+    background: #ffffff;
+    color: #0f172a;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    padding: 12px;
+}
+
+#assessment input:focus,
+#assessment select:focus {
+    outline: none;
+    border-color: #2563eb;
+}
+
+/* Result Box */
+
+#assessment .result,
+#assessment .result-card {
+    background: #0f172a;
+    color: #ffffff;
+    border-radius: 15px;
+    padding: 25px;
+    margin-top: 25px;
+}
+
+#assessment .result h3,
+#assessment .result-card h3 {
+    color: #ffffff;
+}
+
+/* Result Values */
+
+#riskScore,
+#capacityUsage,
+#overCapacity,
+#priority {
+    color: #60a5fa !important;
+    font-weight: bold;
+}
+
+/* Recommendation */
+
+#recommendation {
+    color: #e2e8f0 !important;
+    line-height: 1.6;
+}
+
+/* Button */
+
+#assessment button {
+    background: #2563eb;
+    color: white;
+    border: none;
+    padding: 13px 25px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+#assessment button:hover {
+    background: #1d4ed8;
+}
+
+/* Mobile */
+
+@media (max-width: 800px) {
+    #assessment {
+        padding: 60px 4%;
+    }
+
+    #assessment form {
+        padding: 25px;
+    }
+}
+/* ============================= */
+/* DASHBOARD STATISTIC CARDS */
+/* ============================= */
+
+#dashboard {
+    background: #f8fafc;
+}
+
+#dashboard .stat-card,
+#dashboard .dashboard-card,
+#dashboard .metric-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    padding: 25px;
+    color: #0f172a;
+    box-shadow: 0 8px 25px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+#dashboard .stat-card:hover,
+#dashboard .dashboard-card:hover,
+#dashboard .metric-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 14px 30px rgba(15, 23, 42, 0.14);
+}
+
+/* Card headings */
+
+#dashboard h3,
+#dashboard h4 {
+    color: #0f172a;
+}
+
+/* Card numbers */
+
+#redZones,
+#vulnerablePeople,
+#immediateRelocation,
+#totalPopulation {
+    color: #2563eb !important;
+    font-weight: 800;
+}
+
+/* Card description */
+
+#dashboard p {
+    color: #64748b;
+}
+
+/* Dashboard heading */
+
+#dashboard .section-header h2 {
+    color: #0f172a;
+}
+
+#dashboard .section-header p {
+    color: #475569;
+}
+
+#dashboard .section-tag {
+    color: #2563eb;
+}
+/* ============================= */
+/* ASSESSMENT - FINAL FIX */
+/* ============================= */
+
+#assessment {
+    background: #f1f5f9 !important;
+    color: #0f172a !important;
+}
+
+/* Main assessment boxes */
+#assessment .assessment-card,
+#assessment .assessment-form,
+#assessment .form-container {
+    background: #ffffff !important;
+    color: #0f172a !important;
+}
+
+/* Labels */
+#assessment label {
+    color: #0f172a !important;
+}
+
+/* Input text */
+#assessment input,
+#assessment select,
+#assessment textarea {
+    background: #ffffff !important;
+    color: #0f172a !important;
+    border: 1px solid #cbd5e1 !important;
+}
+
+/* Result area */
+#assessment .result,
+#assessment .result-card,
+#assessment .result-box {
+    background: #ffffff !important;
+    color: #0f172a !important;
+    border: 1px solid #e2e8f0 !important;
+}
+
+/* Result headings */
+#assessment .result h3,
+#assessment .result-card h3,
+#assessment .result-box h3 {
+    color: #0f172a !important;
+}
+
+/* Result labels */
+#assessment .result p,
+#assessment .result-card p,
+#assessment .result-box p {
+    color: #475569 !important;
+}
+
+/* Result values */
+#riskScore,
+#capacityUsage,
+#overCapacity,
+#priority {
+    color: #2563eb !important;
+    font-weight: 800 !important;
+}
+
+/* Recommendation */
+#recommendation {
+    color: #0f172a !important;
+}
+
+/* Button */
+#assessment button {
+    background: #2563eb !important;
+    color: #ffffff !important;
+}
+/* ================================= */
+/* ASSESSMENT RESULT - FINAL FIX 2 */
+/* ================================= */
+
+#assessment .result,
+#assessment .result-card,
+#assessment .result-box,
+#assessment .assessment-result,
+#assessment .results,
+#assessment .result-container {
+    background: #ffffff !important;
+    color: #111827 !important;
+    border: 1px solid #d1d5db !important;
+}
+
+/* Result ke andar KISI bhi text ko visible rakho */
+
+#assessment .result *,
+#assessment .result-card *,
+#assessment .result-box *,
+#assessment .assessment-result *,
+#assessment .results *,
+#assessment .result-container * {
+    color: #111827 !important;
+}
+
+/* Main result values */
+
+#assessment #riskScore,
+#assessment #capacityUsage,
+#assessment #overCapacity,
+#assessment #priority {
+    color: #2563eb !important;
+    font-weight: 800 !important;
+}
+
+/* Recommendation text */
+
+#assessment #recommendation {
+    color: #111827 !important;
+    font-weight: 500 !important;
+}
+
+/* Agar result ke labels span/div mein hain */
+
+#assessment .result span,
+#assessment .result-card span,
+#assessment .result-box span {
+    color: #475569 !important;
+}
+
+/* Result headings */
+
+#assessment .result h3,
+#assessment .result-card h3,
+#assessment .result-box h3,
+#assessment .assessment-result h3 {
+    color: #111827 !important;
+}
+/* ============================= */
+/* RECOMMENDATION FINAL FIX */
+/* ============================= */
+
+#assessment #recommendation {
+    background: #ffffff !important;
+    color: #111827 !important;
+    padding: 18px !important;
+    border-radius: 10px !important;
+    border: 1px solid #d1d5db !important;
+    line-height: 1.7 !important;
+    min-height: 50px;
+}
+
+/* Recommendation ke andar ka text */
+#assessment #recommendation * {
+    background: transparent !important;
+    color: #111827 !important;
+}
+
+/* Agar recommendation kisi parent dark box ke andar hai */
+#assessment .recommendation,
+#assessment .recommendation-box {
+    background: #ffffff !important;
+    color: #111827 !important;
+    border: 1px solid #d1d5db !important;
+    padding: 18px !important;
+    border-radius: 10px !important;
+}
+
+#assessment .recommendation *,
+#assessment .recommendation-box * {
+    color: #111827 !important;
+}
+/* ================================= */
+/* DASHBOARD CARDS - FINAL DESIGN */
+/* ================================= */
+
+#dashboard {
+    background: #f8fafc !important;
+}
+
+/* Cards */
+#dashboard .stat-card,
+#dashboard .dashboard-card,
+#dashboard .metric-card,
+#dashboard .card {
+    background: #ffffff !important;
+    color: #0f172a !important;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 16px !important;
+    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08) !important;
+    transition: all 0.25s ease;
+}
+
+/* Hover */
+#dashboard .stat-card:hover,
+#dashboard .dashboard-card:hover,
+#dashboard .metric-card:hover,
+#dashboard .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 14px 30px rgba(15, 23, 42, 0.15) !important;
+}
+
+/* Card headings */
+#dashboard h3,
+#dashboard h4 {
+    color: #0f172a !important;
+}
+
+/* Numbers */
+#redZones,
+#vulnerablePeople,
+#immediateRelocation,
+#totalPopulation {
+    color: #2563eb !important;
+    font-weight: 800 !important;
+}
+
+/* Small text */
+#dashboard p {
+    color: #64748b !important;
+}
+
+/* Section heading */
+#dashboard .section-header h2 {
+    color: #0f172a !important;
+}
+
+#dashboard .section-header p {
+    color: #475569 !important;
+}
+
+#dashboard .section-tag {
+    color: #2563eb !important;
+}
+/* ================================= */
+/* HAZARDS SECTION - FINAL DESIGN */
+/* ================================= */
+
+#hazards {
+    background: #ffffff !important;
+    color: #0f172a !important;
+    padding: 80px 8%;
+}
+
+/* Section heading */
+
+#hazards .section-header h2 {
+    color: #0f172a !important;
+}
+
+#hazards .section-header p {
+    color: #475569 !important;
+}
+
+#hazards .section-tag {
+    color: #2563eb !important;
+}
+
+/* Hazard cards */
+
+#hazards .hazard-card,
+#hazards .hazard-box,
+#hazards .card {
+    background: #f8fafc !important;
+    color: #0f172a !important;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 16px !important;
+    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08) !important;
+    transition: all 0.25s ease;
+}
+
+/* Hover effect */
+
+#hazards .hazard-card:hover,
+#hazards .hazard-box:hover,
+#hazards .card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 14px 30px rgba(15, 23, 42, 0.15) !important;
+}
+
+/* Card headings */
+
+#hazards h3,
+#hazards h4 {
+    color: #0f172a !important;
+}
+
+/* Card text */
+
+#hazards p {
+    color: #475569 !important;
+    line-height: 1.7;
+}
+
+/* Icons */
+
+#hazards .icon,
+#hazards .hazard-icon {
+    color: #2563eb !important;
+    background: #dbeafe !important;
+    border-radius: 12px;
+}
+
+/* Mobile */
+
+@media (max-width: 800px) {
+    #hazards {
+        padding: 60px 4%;
+    }
+}
+/* ================================= */
+/* RELOCATION SECTION */
+/* ================================= */
+
+#relocation {
+    background: #0f172a !important;
+    color: #ffffff !important;
+    padding: 80px 8%;
+}
+
+/* Heading */
+
+#relocation .section-header h2 {
+    color: #ffffff !important;
+}
+
+#relocation .section-header p {
+    color: #cbd5e1 !important;
+}
+
+#relocation .section-tag {
+    color: #60a5fa !important;
+}
+
+/* Relocation steps container */
+
+#relocation .step,
+#relocation .relocation-step,
+#relocation .step-card,
+#relocation .card {
+    background: #1e293b !important;
+    color: #ffffff !important;
+    border: 1px solid #334155 !important;
+    border-radius: 16px !important;
+    padding: 25px !important;
+    transition: all 0.25s ease;
+}
+
+/* Hover */
+
+#relocation .step:hover,
+#relocation .relocation-step:hover,
+#relocation .step-card:hover,
+#relocation .card:hover {
+    transform: translateY(-5px);
+    background: #273449 !important;
+}
+
+/* Step numbers */
+
+#relocation .step-number,
+#relocation .number {
+    color: #60a5fa !important;
+    font-size: 28px;
+    font-weight: 800;
+}
+
+/* Headings */
+
+#relocation h3,
+#relocation h4 {
+    color: #ffffff !important;
+}
+
+/* Text */
+
+#relocation p {
+    color: #cbd5e1 !important;
+    line-height: 1.7;
+}
+
+/* Mobile */
+
+@media (max-width: 800px) {
+    #relocation {
+        padding: 60px 4%;
+    }
+}
+/* ================================= */
+/* FOOTER - FINAL DESIGN */
+/* ================================= */
+
+footer {
+    background: #020617 !important;
+    color: #ffffff !important;
+    padding: 45px 8% 25px !important;
+    border-top: 1px solid #1e293b;
+}
+
+footer h3,
+footer h4 {
+    color: #ffffff !important;
+}
+
+footer p,
+footer li,
+footer span {
+    color: #cbd5e1 !important;
+    line-height: 1.7;
+}
+
+footer a {
+    color: #93c5fd !important;
+    text-decoration: none;
+}
+
+footer a:hover {
+    color: #ffffff !important;
+}
+
+/* Footer bottom */
+
+footer .footer-bottom {
+    border-top: 1px solid #334155;
+    margin-top: 30px;
+    padding-top: 20px;
+    text-align: center;
+    color: #94a3b8 !important;
+}
+
+/* Mobile */
+
+@media (max-width: 800px) {
+    footer {
+        padding: 40px 5% 20px !important;
+        text-align: center;
+    }
+}
+/* ================================
+   BIHAR RISK MAP
+================================ */
+
+.map-section {
+    padding: 80px 8%;
+    background: #f8fafc;
+    color: #0f172a;
+}
+
+.map-section .section-header {
+    text-align: center;
+    margin-bottom: 35px;
+}
+
+.map-section .section-tag {
+    color: #2563eb;
+    font-weight: 700;
+}
+
+.map-section .section-header h2 {
+    color: #0f172a;
+    margin: 10px 0;
+}
+
+.map-section .section-header p {
+    color: #64748b;
+    line-height: 1.7;
+}
+
+.map-container {
+    width: 100%;
+    background: #ffffff;
+    padding: 15px;
+    border-radius: 18px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
+}
+
+#biharMap {
+    width: 100%;
+    height: 550px;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.map-note {
+    margin-top: 20px;
+    padding: 15px 20px;
+    background: #eff6ff;
+    border-left: 4px solid #2563eb;
+    border-radius: 8px;
+    color: #334155;
+    line-height: 1.6;
+}
+
+.leaflet-popup-content {
+    line-height: 1.6;
+}
+
+.map-popup-title {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.map-popup-risk {
+    font-weight: 700;
+}
