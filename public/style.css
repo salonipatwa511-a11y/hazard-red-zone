@@ -1818,3 +1818,33 @@ footer .footer-bottom {
 .dashboard-card p {
     color: #cbd5e1;
 }
+/* RISK MONITORING DASHBOARD - VISIBILITY FIX */
+
+.dashboard .section-heading {
+    color: #ffffff !important;
+}
+
+.dashboard .section-heading span {
+    color: #38bdf8 !important;
+}
+
+.dashboard .section-heading h2 {
+    color: #ffffff !important;
+    font-size: 36px;
+}
+
+.dashboard .section-heading p {
+    color: #dbeafe !important;
+}
+
+.dashboard-card {
+    color: #ffffff !important;
+}
+
+.dashboard-card h3 {
+    color: #ffffff !important;
+}
+
+.dashboard-card p {
+    color: #dbeafe !important;
+}
