@@ -1,28 +1,19 @@
+// ==========================================
+// HAZARDGUARD - SERVER.JS
+// ==========================================
+
 const express = require("express");
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
 app.use(express.static("public"));
 
-/*
-====================================================
-REAL DATA SOURCE
-====================================================
 
-Population:
-Census of India 2011
-
-Hazard classification:
-Government of Bihar flood-prone district classification
-
-NOTE:
-Population is official Census 2011 data.
-Risk score, capacity and priority are calculated
-by our proposed assessment model.
-====================================================
-*/
+// ==========================================
+// HABITATION / DASHBOARD DATA
+// ==========================================
 
 const habitations = [
     {
@@ -147,13 +138,37 @@ const habitations = [
 ];
 
 
-/*
-====================================================
-RISK CALCULATION
-====================================================
-This is the project's proposed model.
-It is NOT an official government risk score.
-*/
+// ==========================================
+// GENERAL HELPER
+// ==========================================
+
+function clamp(value, min = 0, max = 100) {
+    return Math.max(min, Math.min(max, value));
+}
+
+
+// ==========================================
+// HASH FUNCTION
+// SAME AS ORIGINAL HTML
+// ==========================================
+
+function hashNum(str) {
+
+    let h = 2166136261;
+
+    for (const ch of str) {
+        h ^= ch.charCodeAt(0);
+        h = Math.imul(h, 16777619);
+    }
+
+    return h >>> 0;
+}
+
+
+// ==========================================
+// RISK CALCULATION
+// PROPOSED PROJECT MODEL
+// ==========================================
 
 function calculateRisk(data) {
 
@@ -161,7 +176,10 @@ function calculateRisk(data) {
         (data.population / data.capacity) * 100;
 
     const overloadedPeople =
-        Math.max(0, data.population - data.capacity);
+        Math.max(
+            0,
+            data.population - data.capacity
+        );
 
     const riskScore = Math.min(
         100,
@@ -174,210 +192,917 @@ function calculateRisk(data) {
 
     let priority;
 
-    if (riskScore >= 80 || overloadedPeople > 0) {
+    if (
+        riskScore >= 80 ||
+        overloadedPeople > 0
+    ) {
         priority = "Immediate";
-    } else if (riskScore >= 65) {
+    }
+    else if (riskScore >= 65) {
         priority = "High";
-    } else if (riskScore >= 45) {
+    }
+    else if (riskScore >= 45) {
         priority = "Medium";
-    } else {
+    }
+    else {
         priority = "Monitor";
     }
 
     let recommendation;
 
     if (priority === "Immediate") {
+
         recommendation =
             "Immediate relocation assessment and emergency shelter planning required.";
-    } else if (priority === "High") {
+
+    }
+    else if (priority === "High") {
+
         recommendation =
             "Prepare relocation plans and strengthen emergency response.";
-    } else if (priority === "Medium") {
+
+    }
+    else if (priority === "Medium") {
+
         recommendation =
             "Continuous monitoring and preparedness measures recommended.";
-    } else {
+
+    }
+    else {
+
         recommendation =
             "Continue monitoring hazard and population conditions.";
+
     }
 
     return {
-        capacityUsage: Number(capacityUsage.toFixed(2)),
+        capacityUsage:
+            Number(capacityUsage.toFixed(2)),
+
         overloadedPeople,
+
         riskScore,
+
         priority,
+
         recommendation
     };
 }
 
 
-/*
-====================================================
-ADD CALCULATED DATA TO HABITATIONS
-====================================================
-*/
+// ==========================================
+// PROCESSED HABITATION DATA
+// ==========================================
 
-const processedHabitations = habitations.map(item => {
+const processedHabitations =
+    habitations.map(item => {
 
-    const result = calculateRisk(item);
+        const result =
+            calculateRisk(item);
 
-    return {
-        ...item,
-        ...result,
-        risk: result.riskScore
-    };
-});
-
-
-/*
-====================================================
-GET DASHBOARD DATA
-====================================================
-*/
-
-app.get("/api/dashboard", (req, res) => {
-
-    const totalPopulation =
-        processedHabitations.reduce(
-            (sum, item) => sum + item.population,
-            0
-        );
-
-    const immediateRelocation =
-        processedHabitations.filter(
-            item => item.priority === "Immediate"
-        ).length;
-
-    const redZones =
-        processedHabitations.filter(
-            item => item.risk >= 75
-        ).length;
-
-    res.json({
-        success: true,
-
-        redZones: redZones,
-
-        totalPopulation: totalPopulation,
-
-        totalVulnerable: totalPopulation,
-
-        immediateRelocation: immediateRelocation,
-
-        habitations: processedHabitations
-    });
-});
-
-
-/*
-====================================================
-ASSESSMENT API
-====================================================
-*/
-
-app.post("/api/assess", (req, res) => {
-
-    const {
-        population,
-        capacity,
-        hazardScore,
-        vulnerability
-    } = req.body;
-
-    if (
-        population === undefined ||
-        capacity === undefined ||
-        hazardScore === undefined ||
-        vulnerability === undefined
-    ) {
-        return res.json({
-            success: false,
-            message: "Please provide all assessment values."
-        });
-    }
-
-    if (
-        population <= 0 ||
-        capacity <= 0 ||
-        hazardScore < 0 ||
-        hazardScore > 100 ||
-        vulnerability < 0 ||
-        vulnerability > 100
-    ) {
-        return res.json({
-            success: false,
-            message: "Please enter valid values."
-        });
-    }
-
-    const result = calculateRisk({
-        population,
-        capacity,
-        hazardScore,
-        vulnerability
+        return {
+            ...item,
+            ...result,
+            risk: result.riskScore
+        };
     });
 
-    res.json({
-        success: true,
-        ...result
-    });
-});
+
+// ==========================================
+// BIHAR DISTRICTS
+// 38 DISTRICTS
+// ==========================================
+
+const biharDistricts = [
+
+    "Araria",
+    "Arwal",
+    "Aurangabad",
+    "Banka",
+    "Begusarai",
+    "Bhagalpur",
+    "Bhojpur",
+    "Buxar",
+    "Darbhanga",
+    "East Champaran",
+    "Gaya",
+    "Gopalganj",
+    "Jamui",
+    "Jehanabad",
+    "Kaimur",
+    "Katihar",
+    "Khagaria",
+    "Kishanganj",
+    "Lakhisarai",
+    "Madhepura",
+    "Madhubani",
+    "Munger",
+    "Muzaffarpur",
+    "Nalanda",
+    "Nawada",
+    "Patna",
+    "Purnia",
+    "Rohtas",
+    "Saharsa",
+    "Samastipur",
+    "Saran",
+    "Sheikhpura",
+    "Sheohar",
+    "Sitamarhi",
+    "Siwan",
+    "Supaul",
+    "Vaishali",
+    "West Champaran"
+
+];
 
 
-/*
-====================================================
-GET PARTICULAR DISTRICT
-====================================================
-*/
+// ==========================================
+// 5 PROJECT BLOCKS FOR EVERY DISTRICT
+// ==========================================
 
-app.get("/api/habitation/:id", (req, res) => {
+const biharBlocks =
+    Object.fromEntries(
 
-    const id = Number(req.params.id);
+        biharDistricts.map(district => [
 
-    const habitation =
-        processedHabitations.find(
-            item => item.id === id
-        );
+            district,
 
-    if (!habitation) {
-        return res.status(404).json({
-            success: false,
-            message: "District not found."
-        });
-    }
+            [
+                "Block A",
+                "Block B",
+                "Block C",
+                "Block D",
+                "Block E"
+            ]
 
-    res.json({
-        success: true,
-        habitation
-    });
-});
-
-
-/*
-====================================================
-TEST API
-====================================================
-*/
-
-app.get("/api/test", (req, res) => {
-
-    res.json({
-        success: true,
-        message: "Node.js backend is working!"
-    });
-
-});
-
-
-/*
-====================================================
-START SERVER
-====================================================
-*/
-
-app.listen(PORT, () => {
-
-    console.log(
-        `Server running at http://localhost:${PORT}`
+        ])
     );
 
-});
+
+// ==========================================
+// ORIGINAL HTML MODEL
+// BIHAR HAZARD DATA
+// ==========================================
+
+const stateHazardBase = {
+
+    Bihar: {
+
+        Flood: 78,
+
+        Earthquake: 45
+
+    }
+
+};
+
+
+// ==========================================
+// KNOWN BIHAR HOTSPOTS
+// SAME AS ORIGINAL HTML
+// ==========================================
+
+const knownHotspots = {
+
+    Bihar: [
+
+        "Darbhanga",
+        "Madhubani",
+        "Sitamarhi",
+        "Sheohar",
+        "Supaul",
+        "Saharsa",
+        "Khagaria",
+        "Purnia",
+        "Katihar",
+        "Araria",
+        "Kishanganj"
+
+    ]
+
+};
+
+
+// ==========================================
+// BIHAR PROFILE
+// ==========================================
+
+const profile = {
+
+    Bihar: {
+
+        haz: "Flood / Earthquake",
+
+        base:
+            "Flood exposure is a major concern, especially in vulnerable low-lying areas."
+
+    }
+
+};
+
+
+// ==========================================
+// DISTRICT MODEL
+// SAME LOGIC AS ORIGINAL HTML
+// ==========================================
+
+function districtModel(name, state) {
+
+    const h =
+        hashNum(
+            name + "|" + state
+        );
+
+
+    const hotspot =
+        (knownHotspots[state] || [])
+            .includes(name);
+
+
+    const popL =
+        1.2 +
+        ((h % 190) / 10);
+
+
+    const vulnerability =
+        clamp(
+            22 +
+            ((h >>> 5) % 46) +
+            (hotspot ? 12 : 0)
+        );
+
+
+    const road =
+        clamp(
+            45 +
+            ((h >>> 9) % 48) -
+            (hotspot ? 6 : 0)
+        );
+
+
+    const health =
+        clamp(
+            43 +
+            ((h >>> 14) % 48)
+        );
+
+
+    const shelterCount =
+        8 +
+        ((h >>> 19) % 54);
+
+
+    const perShelter =
+        140 +
+        ((h >>> 24) % 241);
+
+
+    const shelterCapacity =
+        shelterCount *
+        perShelter;
+
+
+    const infrastructureStress =
+        clamp(
+            100 -
+            ((road + health) / 2) +
+            ((h >>> 3) % 16)
+        );
+
+
+    const hazards = {};
+
+
+    for (
+        const [hazard, base]
+        of Object.entries(
+            stateHazardBase[state] || {}
+        )
+    ) {
+
+        hazards[hazard] =
+            clamp(
+                base +
+                (
+                    (
+                        h >>>
+                        ((hazard.length * 3) % 20)
+                    ) % 23
+                ) -
+                5 +
+                (hotspot ? 7 : 0)
+            );
+
+    }
+
+
+    const primary =
+        (
+            profile[state]?.haz ||
+            "Flood / Earthquake"
+        )
+        .split(" / ")[0];
+
+
+    const primaryHaz =
+        hazards[primary] ||
+        50;
+
+
+    const secondary =
+        Object.entries(hazards)
+
+            .filter(
+                ([key]) =>
+                    key !== primary
+            )
+
+            .reduce(
+                (max, [, value]) =>
+                    Math.max(max, value),
+                0
+            );
+
+
+    const capacityNeed =
+        Math.ceil(
+            popL *
+            100000 *
+            (
+                0.12 +
+                vulnerability / 500
+            )
+        );
+
+
+    const capacityGap =
+        clamp(
+            (
+                (
+                    capacityNeed -
+                    shelterCapacity
+                ) /
+                Math.max(
+                    capacityNeed,
+                    1
+                )
+            ) * 100
+        );
+
+
+    const accessPenalty =
+        (100 - road) * 0.55 +
+        (100 - health) * 0.45;
+
+
+    const redScore =
+        clamp(
+
+            primaryHaz * 0.42 +
+
+            secondary * 0.12 +
+
+            vulnerability * 0.18 +
+
+            infrastructureStress * 0.12 +
+
+            capacityGap * 0.10 +
+
+            accessPenalty * 0.06
+
+        );
+
+
+    const priorityScore =
+        clamp(
+
+            redScore * 0.72 +
+
+            capacityGap * 0.16 +
+
+            (100 - road) * 0.07 +
+
+            (100 - health) * 0.05
+
+        );
+
+
+    return {
+
+        popL,
+
+        vulnerability,
+
+        road,
+
+        health,
+
+        shelterCount,
+
+        perShelter,
+
+        shelterCapacity,
+
+        capacityNeed,
+
+        capacityGap,
+
+        infrastructureStress,
+
+        primaryHaz,
+
+        secondary,
+
+        redScore,
+
+        priorityScore,
+
+        hazards
+
+    };
+}
+
+
+// ==========================================
+// BLOCK MODEL
+// SAME LOGIC AS ORIGINAL HTML
+// ==========================================
+
+function blockModel(block, district) {
+
+    const model =
+        districtModel(
+            district,
+            "Bihar"
+        );
+
+
+    const blockNames = [
+
+        "Block A",
+        "Block B",
+        "Block C",
+        "Block D",
+        "Block E"
+
+    ];
+
+
+    const index =
+        blockNames.indexOf(block);
+
+
+    const blockIndex =
+        index === -1
+            ? 0
+            : index;
+
+
+    /*
+    ------------------------------------------
+    RISK
+    Original HTML logic:
+    Block A = district risk - 8
+    Block B = district risk - 5
+    Block C = district risk - 2
+    Block D = district risk + 1
+    Block E = district risk + 4
+    ------------------------------------------
+    */
+
+    const riskScore =
+        clamp(
+
+            Math.round(
+                model.redScore -
+                8 +
+                blockIndex * 3
+            ),
+
+            0,
+            100
+
+        );
+
+
+    /*
+    ------------------------------------------
+    ACCESS
+    Original HTML logic:
+    Each next block gets +2 access
+    ------------------------------------------
+    */
+
+    const access =
+        clamp(
+
+            Math.round(
+                model.road +
+                blockIndex * 2
+            ),
+
+            0,
+            100
+
+        );
+
+
+    /*
+    ------------------------------------------
+    PRIORITY
+    Original HTML:
+    Block A & B = High
+    Block C/D/E = Medium
+    ------------------------------------------
+    */
+
+    const priority =
+        blockIndex < 2
+            ? "High"
+            : "Medium";
+
+
+    return {
+
+        district,
+
+        block,
+
+        riskScore,
+
+        access,
+
+        priority
+
+    };
+}
+
+
+// ==========================================
+// DASHBOARD API
+// ==========================================
+
+app.get(
+    "/api/dashboard",
+    (req, res) => {
+
+        const totalPopulation =
+            processedHabitations.reduce(
+
+                (sum, item) =>
+                    sum + item.population,
+
+                0
+
+            );
+
+
+        const totalVulnerable =
+            processedHabitations.reduce(
+
+                (sum, item) =>
+
+                    sum +
+                    Math.round(
+                        item.population *
+                        item.vulnerability /
+                        100
+                    ),
+
+                0
+
+            );
+
+
+        const immediateRelocation =
+            processedHabitations.filter(
+
+                item =>
+                    item.priority ===
+                    "Immediate"
+
+            ).length;
+
+
+        const redZones =
+            processedHabitations.filter(
+
+                item =>
+                    item.risk >= 75
+
+            ).length;
+
+
+        res.json({
+
+            success: true,
+
+            redZones,
+
+            totalPopulation,
+
+            totalVulnerable,
+
+            immediateRelocation,
+
+            habitations:
+                processedHabitations
+
+        });
+
+    }
+);
+
+
+// ==========================================
+// ASSESSMENT API
+// ==========================================
+
+app.post(
+    "/api/assess",
+    (req, res) => {
+
+        const {
+
+            population,
+
+            capacity,
+
+            hazardScore,
+
+            vulnerability
+
+        } = req.body;
+
+
+        if (
+
+            population === undefined ||
+
+            capacity === undefined ||
+
+            hazardScore === undefined ||
+
+            vulnerability === undefined
+
+        ) {
+
+            return res.status(400).json({
+
+                success: false,
+
+                message:
+                    "Please provide all assessment values."
+
+            });
+
+        }
+
+
+        if (
+
+            population <= 0 ||
+
+            capacity <= 0 ||
+
+            hazardScore < 0 ||
+
+            hazardScore > 100 ||
+
+            vulnerability < 0 ||
+
+            vulnerability > 100
+
+        ) {
+
+            return res.status(400).json({
+
+                success: false,
+
+                message:
+                    "Please enter valid values."
+
+            });
+
+        }
+
+
+        const result =
+            calculateRisk({
+
+                population,
+
+                capacity,
+
+                hazardScore,
+
+                vulnerability
+
+            });
+
+
+        res.json({
+
+            success: true,
+
+            ...result
+
+        });
+
+    }
+);
+
+
+// ==========================================
+// PARTICULAR DISTRICT API
+// ==========================================
+
+app.get(
+    "/api/habitation/:id",
+    (req, res) => {
+
+        const id =
+            Number(req.params.id);
+
+
+        const habitation =
+            processedHabitations.find(
+
+                item =>
+                    item.id === id
+
+            );
+
+
+        if (!habitation) {
+
+            return res.status(404).json({
+
+                success: false,
+
+                message:
+                    "District not found."
+
+            });
+
+        }
+
+
+        res.json({
+
+            success: true,
+
+            habitation
+
+        });
+
+    }
+);
+
+
+// ==========================================
+// BLOCK API
+// ==========================================
+
+app.get(
+    "/api/blocks/:district",
+    (req, res) => {
+
+        const district =
+            decodeURIComponent(
+                req.params.district
+            );
+
+
+        const blocks =
+            biharBlocks[district];
+
+
+        if (!blocks) {
+
+            return res.status(404).json({
+
+                success: false,
+
+                message:
+                    "District not found."
+
+            });
+
+        }
+
+
+        const data =
+            blocks.map(
+
+                block =>
+                    blockModel(
+                        block,
+                        district
+                    )
+
+            );
+
+
+        res.json({
+
+            success: true,
+
+            district,
+
+            totalBlocks:
+                data.length,
+
+            blocks:
+                data
+
+        });
+
+    }
+);
+
+
+// ==========================================
+// ALL BIHAR BLOCK DATA API
+// ==========================================
+
+app.get(
+    "/api/blocks",
+    (req, res) => {
+
+        const result = {};
+
+
+        Object.keys(
+            biharBlocks
+        ).forEach(
+
+            district => {
+
+                result[district] =
+                    biharBlocks[district]
+                        .map(
+
+                            block =>
+                                blockModel(
+                                    block,
+                                    district
+                                )
+
+                        );
+
+            }
+
+        );
+
+
+        res.json({
+
+            success: true,
+
+            districts:
+                result
+
+        });
+
+    }
+);
+
+
+// ==========================================
+// TEST API
+// ==========================================
+
+app.get(
+    "/api/test",
+    (req, res) => {
+
+        res.json({
+
+            success: true,
+
+            message:
+                "Node.js backend is working!"
+
+        });
+
+    }
+);
+
+
+// ==========================================
+// START SERVER
+// ==========================================
+
+app.listen(
+    PORT,
+    "0.0.0.0",
+    () => {
+
+        console.log(
+            `Server running at http://localhost:${PORT}`
+        );
+
+    }
+);
