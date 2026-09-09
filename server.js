@@ -635,190 +635,138 @@ function districtModel(name, state) {
 function blockModel(block, district) {
 
     const districtData = districtModel(district, "Bihar");
+    const blockIndex = biharBlocks[district].indexOf(block);
 
-    const blockIndex =
-        biharBlocks[district].indexOf(block);
+    // Different local conditions for the five project blocks
+    const riskFactors = [-10, -4, 0, 6, 11];
+    const accessChanges = [-12, -6, 0, 5, 10];
+    const capacityChanges = [8, 4, 0, -4, -8];
 
-    // ==========================================
-    // BLOCK-SPECIFIC FACTORS
-    // ==========================================
+    const factor = riskFactors[blockIndex] ?? 0;
 
-    // Har block ke liye different factor
-    const blockFactors = [
-        -10,
-        -4,
-        2,
-        7,
-        12
-    ];
-
-    const blockFactor =
-        blockFactors[blockIndex];
-
-
-    // ==========================================
-    // BLOCK HAZARD
-    // ==========================================
-
-    const blockHazard =
-        clamp(
+    // Hazard exposure
+    const hazardScore = clamp(
+        Math.round(
             districtData.primaryHaz +
-            blockFactor
-        );
+            factor * 0.85
+        )
+    );
 
-
-    // ==========================================
-    // BLOCK VULNERABILITY
-    // ==========================================
-
-    const blockVulnerability =
-        clamp(
+    // Vulnerability
+    const vulnerability = clamp(
+        Math.round(
             districtData.vulnerability +
-            Math.round(blockFactor * 0.7)
-        );
+            factor * 0.45
+        )
+    );
 
+    // Emergency accessibility
+    const access = clamp(
+        Math.round(
+            districtData.road +
+            accessChanges[blockIndex]
+        )
+    );
 
-    // ==========================================
-    // BLOCK ACCESS
-    // ==========================================
-
-    const accessChanges = [
-        -12,
-        -6,
-        0,
-        7,
-        13
-    ];
-
-    const access =
-        clamp(
-            Math.round(
-                districtData.road +
-                accessChanges[blockIndex]
-            )
-        );
-
-
-    // ==========================================
-    // BLOCK CAPACITY GAP
-    // ==========================================
-
-    const capacityChanges = [
-        15,
-        8,
-        0,
-        -7,
-        -14
-    ];
-
-    const capacityGap =
-        clamp(
-            districtData.capacityGap +
+    // Normalized capacity pressure
+    const capacityGap = clamp(
+        Math.round(
+            20 +
+            districtData.capacityGap * 0.28 +
             capacityChanges[blockIndex]
-        );
+        )
+    );
 
-
-    // ==========================================
-    // BLOCK INFRASTRUCTURE STRESS
-    // ==========================================
-
-    const infrastructureStress =
-        clamp(
+    // Infrastructure stress
+    const infrastructureStress = clamp(
+        Math.round(
             districtData.infrastructureStress +
-            Math.round(blockFactor * 0.8)
-        );
+            factor * 0.55
+        )
+    );
 
+    /*
+     * Composite risk score
+     *
+     * Higher values indicate greater combined:
+     * - hazard exposure
+     * - population vulnerability
+     * - shelter/capacity pressure
+     * - poor emergency access
+     * - infrastructure stress
+     */
+    let riskScore = Math.round(
+        districtData.redScore * 0.55 +
+        hazardScore * 0.25 +
+        vulnerability * 0.08 +
+        capacityGap * 0.04 +
+        (100 - access) * 0.05 +
+        infrastructureStress * 0.03 +
+        factor * 0.30 +
+        8
+    );
 
-    // ==========================================
-    // FINAL BLOCK RISK SCORE
-    // ==========================================
+    // Additional exposure for known flood-prone Bihar districts
+    if (
+        (knownHotspots.Bihar || []).includes(district)
+    ) {
+        riskScore += 6;
+    }
 
-    const riskScore =
-        clamp(
-            Math.round(
+    riskScore = clamp(
+        Math.round(riskScore)
+    );
 
-                blockHazard * 0.40 +
-
-                blockVulnerability * 0.22 +
-
-                infrastructureStress * 0.15 +
-
-                capacityGap * 0.13 +
-
-                (100 - access) * 0.10
-
-            )
-        );
-
-
-    // ==========================================
-    // PRIORITY
-    // ==========================================
-
+    /*
+     * Priority classification
+     *
+     * Immediate:
+     * very high risk OR high risk combined with severe
+     * capacity/access problems.
+     *
+     * High:
+     * significant risk requiring preparedness/relocation planning.
+     *
+     * Medium:
+     * moderate risk requiring monitoring and preventive action.
+     */
     let priority;
 
-
     if (
-        riskScore >= 82 ||
-        capacityGap >= 60 ||
-        access < 40
+        riskScore >= 88 ||
+        (riskScore >= 82 && capacityGap >= 50) ||
+        (riskScore >= 78 && access < 40)
     ) {
-
         priority = "Immediate";
-
     }
-
     else if (
-        riskScore >= 68 ||
-        capacityGap >= 45 ||
-        access < 55
+        riskScore >= 72 ||
+        (riskScore >= 68 && capacityGap >= 45) ||
+        (riskScore >= 68 && access < 48)
     ) {
-
         priority = "High";
-
     }
-
     else if (
         riskScore >= 50 ||
-        capacityGap >= 25 ||
-        access < 70
+        capacityGap >= 30 ||
+        access < 65
     ) {
-
         priority = "Medium";
-
     }
-
     else {
-
         priority = "Monitor";
-
     }
-
 
     return {
-
         district,
-
         block,
-
         riskScore,
-
         access,
-
         priority,
-
-        hazardScore:
-            Math.round(blockHazard),
-
-        vulnerability:
-            Math.round(blockVulnerability),
-
-        capacityGap:
-            Math.round(capacityGap),
-
-        infrastructureStress:
-            Math.round(infrastructureStress)
-
+        hazardScore,
+        vulnerability,
+        capacityGap,
+        infrastructureStress
     };
 }
 
